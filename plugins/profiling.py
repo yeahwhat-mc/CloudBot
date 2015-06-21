@@ -7,12 +7,17 @@ import sys
 
 import cloudbot
 
-try:
-    import pympler
-    import pympler.muppy
-    import pympler.summary
-    import pympler.tracker
-except ImportError:
+PYMPLER_ENABLED = False
+
+if PYMPLER_ENABLED:
+    try:
+        import pympler
+        import pympler.muppy
+        import pympler.summary
+        import pympler.tracker
+    except ImportError:
+        pympler = None
+else:
     pympler = None
 
 try:

@@ -240,6 +240,7 @@ class Event:
         :type message: str
         :type target: str
         """
+        reply_ping = self.conn.config.get("reply_ping", True)
         if target is None:
             if self.chan is None:
                 raise ValueError("Target must be specified when chan is not assigned")
@@ -248,13 +249,8 @@ class Event:
         if not messages:  # if there are no messages specified, don't do anything
             return
 
-        self.conn.message(target, *messages)
-        
         # We don't want prefixes
-        #~ if target == self.nick:
-            #~ self.conn.message(target, *messages)
-        #~ else:
-            #~ self.conn.message(target, "({}) {}".format(self.nick, messages[0]), *messages[1:])
+        self.conn.message(target, *messages)
 
     def action(self, message, target=None):
         """sends an action to the current channel/user or a specific channel/user
