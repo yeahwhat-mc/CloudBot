@@ -52,7 +52,7 @@ def load_api(bot):
     client_id = bot.config.get("api_keys", {}).get("imgur_client_id")
     client_secret = bot.config.get("api_keys", {}).get("imgur_client_secret")
 
-    if None in (client_id, client_secret):
+    if not (client_id and client_secret):
         imgur_api = None
         return
     else:

@@ -55,6 +55,8 @@ potatoes = ['AC Belmont', 'AC Blue Pride', 'AC Brador', 'AC Chaleur', 'AC Domino
 
 def is_valid(target):
     """ Checks if a string is a valid IRC nick. """
+    return True # I don't care if a nick is valid
+    
     if nick_re.match(target):
         return True
     else:

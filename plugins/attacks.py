@@ -121,3 +121,15 @@ def slap(text, action, nick, conn, notice):
 
     # act out the message
     action(generator.generate_string())
+
+
+@hook.command
+def poke(text, action, conn):
+    """poke <user> -- Make the bot poke <user>."""
+    target = text.strip()
+
+    if target == conn.nick.lower():
+        target = 'itself'
+    
+    out = 'pokes {}'.format(target)
+    action(out)

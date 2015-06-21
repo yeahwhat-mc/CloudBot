@@ -42,6 +42,9 @@ COLORS = collections.OrderedDict([
     ('maroon', '\x0305')
 ])
 
+LEETCHARS = {"a":"4", "b":"8", "e":"3", "g":"6", "i":"1", 
+             "l":"1", "o":"0", "s":"5", "t":"7", "z":"2"}
+
 # helper functions
 
 strip_re = re.compile("(\x03|\x02|\x1f|\x0f)(?:,?\d{1,2}(?:,\d{1,2})?)?")
@@ -98,7 +101,7 @@ def capitalize(text):
     return ". ".join([sentence.capitalize() for sentence in text.split(". ")])
 
 
-@hook.command
+@hook.command("caps", "upper")
 def upper(text):
     """upper <string> -- Convert string to uppercase."""
     return text.upper()
@@ -208,8 +211,17 @@ def munge(text):
     return formatting.munge(text)
 
 
+@hook.command("1337")
 @hook.command
 def leet(text):
+    """<text> -- Writes message in leet"""
+    out = text
+    for key, value in LEETCHARS.items():
+        out = out.replace(key, value).replace(key.upper(), value)
+    return out
+
+@hook.command
+def proleet(text):
     """<text> -- Makes <text> more 1337h4x0rz."""
     output = ''.join(random.choice(leet[ch]) if ch.isalpha() else ch for ch in text.lower())
     return output

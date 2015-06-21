@@ -10,7 +10,7 @@ win_ping_regex = re.compile(r"Minimum = (\d+)ms, Maximum = (\d+)ms, Average = (\
 
 
 @hook.command()
-def ping(text, reply):
+def hostping(text, reply):
     """<host> [count] - pings <host> [count] times"""
 
     args = text.split(' ')

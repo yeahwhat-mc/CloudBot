@@ -70,7 +70,7 @@ def chat_tracker(event, db, conn):
 
 
 @asyncio.coroutine
-@hook.command(autohelp=False)
+@hook.command(autohelp=False, permissions=["botcontrol"])
 def resethistory(event, conn):
     """- resets chat history for the current channel
     :type event: cloudbot.event.Event
@@ -91,6 +91,11 @@ def seen(text, nick, chan, db, event, conn):
     :type event: cloudbot.event.Event
     :type conn: cloudbot.client.Client
     """
+
+    args = text.split()
+    text = args[0]
+    if len(args) > 1:
+        chan = args[1]
 
     if event.conn.nick.lower() == text.lower():
         return "You need to get your eyes checked."

@@ -118,7 +118,7 @@ def forget(text, db, async, notice):
 
 @asyncio.coroutine
 @hook.command()
-def info(text, notice):
+def show(text, notice):
     """<factoid> - shows the source of a factoid"""
 
     text = text.strip().lower()

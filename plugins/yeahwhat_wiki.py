@@ -6,13 +6,13 @@ from lxml import html
 from cloudbot import hook
 from cloudbot.util import formatting
 
-api_url = "http://minecraft.gamepedia.com/api.php?action=opensearch"
-mc_url = "http://minecraft.gamepedia.com/"
+api_url = "http://wiki.yeahwh.at/api.php?action=opensearch"
+mc_url = "http://wiki.yeahwh.at/"
 
 
-@hook.command('mc', 'mcwiki')
-def mcwiki(text):
-    """mcwiki <phrase> - gets the first paragraph of the Minecraft Wiki article on <phrase>"""
+@hook.command('yw', 'ywiki', 'yeahwiki')
+def yeahwiki(text):
+    """yeahwiki <phrase> - gets the first paragraph of the Yeahwhat Wiki article on <phrase>"""
 
     try:
         request = requests.get(api_url, params={'search': text.strip()})

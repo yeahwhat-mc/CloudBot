@@ -7,10 +7,10 @@ from cloudbot import hook
 from cloudbot.util import web
 
 
-@hook.command("metacritic", "mc")
+@hook.command("metacritic")
 def metacritic(text):
-    """[all|movie|tv|album|x360|ps3|pc|gba|ds|3ds|wii|vita|wiiu|xone|ps4] <title> - gets rating for <title> from
-     metacritic on the specified medium"""
+    """[all|movie|tv|album|x360|ps3|pc|gba|ds|3ds|wii|vita|wiiu|xone|ps4] <title> - 
+    gets rating for <title> from metacritic on the specified medium"""
 
     args = text.strip()
 

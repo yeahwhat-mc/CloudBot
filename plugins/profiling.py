@@ -7,16 +7,14 @@ import sys
 
 import cloudbot
 
-if cloudbot.dev_mode.get("pympler", False):
-    try:
-        import pympler
-        import pympler.muppy
-        import pympler.summary
-        import pympler.tracker
-    except ImportError:
-        pympler = None
-else:
+try:
+    import pympler
+    import pympler.muppy
+    import pympler.summary
+    import pympler.tracker
+except ImportError:
     pympler = None
+
 try:
     import objgraph
 except ImportError:

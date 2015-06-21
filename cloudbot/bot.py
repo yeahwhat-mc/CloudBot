@@ -225,10 +225,11 @@ class CloudBot:
         if event.type is EventType.message:
             # Commands
             if event.chan.lower() == event.nick.lower():  # private message, no command prefix
-                command_re = r'(?i)^(?:[{}]?|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(command_prefix, event.conn.nick)
+                command_re = r'(?i)^(?:\[[^\]]+\]\w+:\s*)?(?:[{}]?|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(command_prefix, event.conn.nick)
             else:
-                command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(command_prefix, event.conn.nick)
+                command_re = r'(?i)^(?:\[[^\]]+\]\w+:\s*)?(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(command_prefix, event.conn.nick)
 
+            event.content = re.sub(r'\x03\d\d|\x02|\x0F|\x16|\x1F', '', event.content)
             cmd_match = re.match(command_re, event.content)
 
             if cmd_match:

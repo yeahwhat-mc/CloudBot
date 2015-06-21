@@ -75,7 +75,7 @@ def get_episode_info(episode, api_key):
 
 @hook.command()
 @hook.command('tv')
-def tv_next(text, bot=None):
+def tv_next(text, bot):
     """tv <series> -- Get the next episode of <series>."""
 
     api_key = bot.config.get("api_keys", {}).get("tvdb", None)
@@ -125,7 +125,7 @@ def tv_next(text, bot=None):
 
 @hook.command()
 @hook.command('tv_prev')
-def tv_last(text, bot=None):
+def tv_last(text, bot):
     """tv_last <series> -- Gets the most recently aired episode of <series>."""
 
     api_key = bot.config.get("api_keys", {}).get("tvdb", None)
