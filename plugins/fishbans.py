@@ -9,7 +9,7 @@ from cloudbot.util import formatting
 api_url = "http://api.fishbans.com/stats/{}/"
 
 
-@hook.command("bans", "fishbans")
+@hook.command("fishbans")
 def fishbans(text, bot):
     """<user> - gets information on <user>'s minecraft bans from fishbans"""
     user = text.strip()
