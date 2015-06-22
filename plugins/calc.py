@@ -1,7 +1,7 @@
 from cloudbot import hook
 import sympy
 
-@hook.command('math', 'calc')
+@hook.command('math', 'calc', 'ca')
 def calc(text):
     """calc <query> -- Calculates <query> using sympy."""
     try:
