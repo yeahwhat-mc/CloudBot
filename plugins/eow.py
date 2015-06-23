@@ -55,7 +55,7 @@ def formattime(seconds):
     return " ".join(timelist[:2]) # Drop the seconds if we have hours
 
 @hook.command('eow', 'remaining', 'endofwork', 'beeroclock', 
-    'remainingtimewhilefrdmnhastowork', autohelp=False)
+    'remainingtimewhilefrdmnhastowork', 'meow', autohelp=False)
 def endofwork(text):
     curdate = datetime.datetime.now(tz=pytz.utc).astimezone(TIMEZONE).replace(tzinfo=None)
     weekday = curdate.weekday()
