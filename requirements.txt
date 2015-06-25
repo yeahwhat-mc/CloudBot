@@ -15,3 +15,7 @@ pyenchant
 pythonwhois
 imgurpython
 isodate
+cfscrape
+sympy
+pytz
+git+https://github.com/yeahwhat-mc/goslate.git@master
