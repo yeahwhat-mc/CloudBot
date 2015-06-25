@@ -1,11 +1,7 @@
 from cloudbot import hook
 import re
 
-try:
-    import goslate
-    gs = goslate.Goslate()
-except:
-    goslate = None
+gs = goslate.Goslate()
     
 cmdre = re.compile("(?:(?:from\s*(\w+)\s+)|(?:(?:in)?to?\s*(\w+)\s+)){0,2}(.*)")
 
@@ -21,8 +17,6 @@ def translate(text):
     """translate [from <source language>] [into <target language>] <sentence> 
     -- translates <sentence> from source language (default autodetect) to target
     language (default English) using Google Translate"""
-    if goslate is None:
-        return "You need to install the goslate api to use this feature"
 
     inpmatch = cmdre.match(text)
     text = inpmatch.group(3)
