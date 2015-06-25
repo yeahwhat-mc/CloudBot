@@ -1,4 +1,5 @@
 from cloudbot import hook
+import goslate
 import re
 
 gs = goslate.Goslate()
