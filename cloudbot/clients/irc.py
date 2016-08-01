@@ -15,6 +15,12 @@ irc_noprefix_re = re.compile(r"([^ ]*) (.*)")
 irc_netmask_re = re.compile(r"([^!@]*)!([^@]*)@(.*)")
 irc_param_re = re.compile(r"(?:^|(?<= ))(:.*|[^ ]+)")
 
+irc_bad_chars = ''.join([chr(x) for x in list(range(0, 32)) + list(range(127, 160))])
+irc_clean_re = re.compile('[{}]'.format(re.escape(irc_bad_chars)))
+
+def irc_clean(dirty):
+    return irc_clean_re.sub('', dirty)
+
 irc_command_to_event_type = {
     "PRIVMSG": EventType.message,
     "JOIN": EventType.join,
@@ -44,6 +50,7 @@ class IrcClient(Client):
     :type port: int
     :type _connected: bool
     :type _ignore_cert_errors: bool
+    :type capabilities: set[str]
     """
 
     def __init__(self, bot, name, nick, *, channels=None, config=None,
@@ -86,6 +93,8 @@ class IrcClient(Client):
         # transport and protocol
         self._transport = None
         self._protocol = None
+
+        self.capabilities = set(self.config.get('capabilities', []))
 
     def describe_server(self):
         if self.use_ssl:
@@ -140,14 +149,20 @@ class IrcClient(Client):
         self._transport.close()
         self._connected = False
 
-    def message(self, target, *messages):
+    def message(self, target, *messages, sanatize=True):
         for text in messages:
+            if sanatize == True:
+                text = "".join(text.splitlines())
             self.cmd("PRIVMSG", target, text)
 
-    def action(self, target, text):
+    def action(self, target, text, sanatize=True):
+        if sanatize == True:
+            text = "".join(text.splitlines())
         self.ctcp(target, "ACTION", text)
 
-    def notice(self, target, text):
+    def notice(self, target, text, sanatize=True):
+        if sanatize == True:
+            text = "".join(text.splitlines())
         self.cmd("NOTICE", target, text)
 
     def set_nick(self, nick):
@@ -334,11 +349,17 @@ class _IrcProtocol(asyncio.Protocol):
             # Parse the command and params
 
             # Content
-            if command_params and command_params[-1].startswith(":"):
+            if command_params:
+                if command_params[-1].startswith(":"):
                 # If the last param is in the format of `:content` remove the `:` from it, and set content from it
-                content = command_params[-1][1:]
-            else:
-                content = None
+                    content_raw = command_params[-1][1:]
+                    content = irc_clean(content_raw)
+                else:
+                    content_raw = None
+                    content = None
+                    if not command_params[-1]=="" and isinstance("string", type(command_params[-1])):
+                        content = command_params[-1]
+                        content_raw = command_params[-1]
 
             # Event type
             if command in irc_command_to_event_type:
@@ -356,9 +377,9 @@ class _IrcProtocol(asyncio.Protocol):
                 target = None
 
             # Parse for CTCP
-            if event_type is EventType.message and content.count("\x01") >= 2 and content.startswith("\x01"):
+            if event_type is EventType.message and content_raw.count("\x01") >= 2 and content_raw.startswith("\x01"):
                 # Remove the first \x01, then rsplit to remove the last one, and ignore text after the last \x01
-                ctcp_text = content[1:].rsplit("\x01", 1)[0]
+                ctcp_text = content_raw[1:].rsplit("\x01", 1)[0]
                 ctcp_text_split = ctcp_text.split(None, 1)
                 if ctcp_text_split[0] == "ACTION":
                     # this is a CTCP ACTION, set event_type and content accordingly

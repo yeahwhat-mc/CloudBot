@@ -44,6 +44,20 @@ def dogecoin():
     return crypto_command("doge")
 
 
+@hook.command("dash", "darkcoin", autohelp=False)
+def dash():
+    """ -- Returns current darkcoin/dash value """
+    # alias
+    return crypto_command("dash")
+    
+    
+@hook.command("zetacoin", "zet", autohelp=False)
+def zet():
+    """ -- Returns current Zetacoin value """
+    # alias
+    return crypto_command("zet")
+    
+
 # main command
 @hook.command("crypto", "cryptocurrency")
 def crypto_command(text):
@@ -68,9 +82,9 @@ def crypto_command(text):
 
     change = float(data['change'])
     if change > 0:
-        change_str = "\x033{}%\x0f".format(change)
+        change_str = "\x033 {}%\x0f".format(change)
     elif change < 0:
-        change_str = "\x035{}%\x0f".format(change)
+        change_str = "\x035 {}%\x0f".format(change)
     else:
         change_str = "{}%".format(change)
 
